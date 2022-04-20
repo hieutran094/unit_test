@@ -35,4 +35,4 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn test --runInBand
+      - run: yarn test --maxWorkers=3
