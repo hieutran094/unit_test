@@ -1,0 +1,20 @@
+export const TypeOrmConfig: any = {
+  type: 'mysql',
+  entities: ['@/../**/*.entity{.ts,.js}'],
+  migrationsRun: true,
+  migrationsTableName: 'migrations',
+  migrations: ['@/../**/*.migration{.ts,.js}'],
+  cli: { migrationsDir: 'migration' },
+  keepConnectionAlive: true,
+  logging: 'true',
+  synchronize: false,
+  timezone: 'UTC',
+  extra: {
+    connectionLimit: 10,
+  },
+  host: 'localhost',
+  port: 33062,
+  username: 'root',
+  password: 'root',
+  database: 'dev',
+}
