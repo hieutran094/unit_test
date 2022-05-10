@@ -6,14 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { getConnection, Connection } from 'typeorm'
 import { HeroService } from 'src/modules/hero/hero.service'
 import { Hero } from 'src/modules/hero/hero.entity'
-import { TypeOrmConfig } from '../../utils/config'
+import { DatabaseModule } from 'src/database/database.module'
 
 describe('Hero controller (e2e)', () => {
   let app: INestApplication
   let conn: Connection
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(TypeOrmConfig), HeroModule, TypeOrmModule.forFeature([Hero])],
+      imports: [DatabaseModule, HeroModule, TypeOrmModule.forFeature([Hero])],
       providers: [HeroService],
     }).compile()
 

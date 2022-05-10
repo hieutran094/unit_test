@@ -7,17 +7,18 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "vite build",
+    "clean": "rimraf dist",
+    "dev": "yarn clean && nest start --path tsconfig.json --watch",
+    "build": "yarn clean && yarn lint && nest build --path tsconfig.json",
+    "start": "node dist/main.js",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "dev": "vite",
     "prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json --setupFiles dotenv/config"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",

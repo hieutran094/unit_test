@@ -2,8 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import request = require('supertest')
 import { AppModule } from 'src/app.module'
-import { TypeOrmConfig } from './utils/config'
-import { TypeOrmModule } from '@nestjs/typeorm'
 import { DatabaseModule } from '../src/database/database.module'
 
 describe('AppController (e2e)', () => {
