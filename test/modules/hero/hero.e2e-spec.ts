@@ -22,23 +22,23 @@ describe('Hero controller (e2e)', () => {
     conn = getConnection()
   })
   describe('/heroes (GET)', () => {
-    // beforeEach(async () => {
-    //   const heroRepo = await conn.getRepository(Hero)
-    //   const saveHero = []
-    //   for (let i = 1; i <= 5000; i++) {
-    //     saveHero.push({
-    //       name: `Super Man ${i}`,
-    //       power: i,
-    //     })
-    //   }
-    //   await heroRepo.save(saveHero)
-    // })
+    beforeEach(async () => {
+      const heroRepo = await conn.getRepository(Hero)
+      const saveHero = []
+      for (let i = 1; i <= 5000; i++) {
+        saveHero.push({
+          name: `Super Man ${i}`,
+          power: i,
+        })
+      }
+      await heroRepo.save(saveHero)
+    })
     it('it should return 1 item', () => {
       return request(app.getHttpServer())
         .get('/heroes')
         .expect(200)
         .then(({ body }) => {
-          expect(body).toHaveLength(5000)
+          expect(body).toHaveLength(5003)
         })
     })
   })
