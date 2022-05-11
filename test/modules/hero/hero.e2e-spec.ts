@@ -38,7 +38,7 @@ describe('Hero controller (e2e)', () => {
         .get('/heroes')
         .expect(200)
         .then(({ body }) => {
-          expect(body).toHaveLength(5003)
+          expect(body).toHaveLength(5000)
         })
     })
   })

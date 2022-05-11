@@ -16,9 +16,6 @@ jobs:
         with:
           node-version: '12'
 
-      - name: Setup yarn
-        run: npm install -g yarn
-
       - uses: actions/cache@v2
         id: yarn-cache
         with:
@@ -30,7 +27,7 @@ jobs:
 
   jest:
     needs: setup
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04 #for using MySQL 5.7.38
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -41,21 +38,15 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      # - name: Set up MySQL 5.7
-      #   uses: mirromutth/mysql-action@v1.1
-      #   with:
-      #     mysql version: 5.7
-      #     mysql root password: ${{ secrets.DB_PASSWORD }}
-      #     mysql database: dev
-      #     mysql user: root
-      #     mysql password: ${{ secrets.DB_PASSWORD }}
-      - run: |
-          sudo systemctl start mysql 
-          mysql -e 'CREATE DATABASE IF NOT EXISTS dev;' -uroot -proot
-          mysql -uroot -proot dev < dump.sql
+      - name: Start mySql and initDB
+        run: |
+          sudo systemctl start mysql
+          mysql -e 'CREATE DATABASE IF NOT EXISTS test;' -uroot -proot
+          mysql -uroot -proot test < test/utils/dump.sql
           mysql -uroot -proot -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';FLUSH PRIVILEGES;"
-      - name: Run Tests (JEST)
+      - name: Run Tests (JEST e2e)
         run: yarn test:e2e
         env:
-          DB_PASSWORD: root
           DB_PORT: 3306
+          DB_PASSWORD: root
+          DB_DATABASE: test
