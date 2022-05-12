@@ -27,6 +27,22 @@ jobs:
 
   jest:
     needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Run Tests (JEST unit test)
+        run: yarn test
+
+  jest-e2e:
+    needs: setup
     runs-on: ubuntu-18.04 #for using MySQL 5.7.38
     steps:
       - uses: actions/checkout@v2
