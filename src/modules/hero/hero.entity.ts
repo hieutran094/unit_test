@@ -10,4 +10,7 @@ export class Hero {
 
   @Column({ type: 'int' })
   power: number
+
+  @Column('varchar', { name: 'universe', nullable: true, length: 50 })
+  universe: string | null
 }

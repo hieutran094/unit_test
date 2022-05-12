@@ -27,7 +27,7 @@ describe('Hero controller (e2e)', () => {
       const saveHero = []
       for (let i = 1; i <= 5000; i++) {
         saveHero.push({
-          name: `Super Man ${i}`,
+          name: `Test Man ${i}`,
           power: i,
         })
       }
@@ -38,7 +38,13 @@ describe('Hero controller (e2e)', () => {
         .get('/heroes')
         .expect(200)
         .then(({ body }) => {
-          expect(body).toHaveLength(5000)
+          expect(body).toHaveLength(5003)
+          expect(body[0]).toStrictEqual({
+            id: 1,
+            name: 'Iron Man',
+            power: 98,
+            universe: null,
+          })
         })
     })
   })

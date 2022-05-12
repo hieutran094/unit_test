@@ -1,7 +1,7 @@
 export const TypeOrmConfig: any = {
   type: 'mysql',
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-  migrationsRun: true,
+  migrationsRun: process.env.RUN_MIGRATION || false,
   migrationsTableName: 'migrations',
   migrations: [__dirname + '/../**/*.migration{.ts,.js}'],
   cli: { migrationsDir: 'migration' },
@@ -18,5 +18,3 @@ export const TypeOrmConfig: any = {
   password: process.env.DB_PASSWORD || 'root',
   database: process.env.DB_DATABASE || 'dev',
 }
-
-console.log(process.env.DB_HOST)
