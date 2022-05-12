@@ -1,7 +1,7 @@
 {
   "type": "mysql",
   "host": "localhost",
-  "port": 33062,
+  "port": 3306,
   "username": "root",
   "password": "root",
   "database": "dev",
