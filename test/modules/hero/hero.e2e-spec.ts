@@ -3,48 +3,50 @@ import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { HeroModule } from 'src/modules/hero/hero.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { getConnection, Connection } from 'typeorm'
+import { Connection } from 'typeorm'
 import { HeroService } from 'src/modules/hero/hero.service'
 import { Hero } from 'src/modules/hero/hero.entity'
-import { TypeOrmConfig } from '../../utils/config'
+import { DatabaseModule } from 'src/database/database.module'
 
 describe('Hero controller (e2e)', () => {
   let app: INestApplication
-  let conn: Connection
+  let connection: Connection
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(TypeOrmConfig), HeroModule, TypeOrmModule.forFeature([Hero])],
+      imports: [DatabaseModule, HeroModule, TypeOrmModule.forFeature([Hero])],
       providers: [HeroService],
     }).compile()
 
     app = moduleFixture.createNestApplication()
     await app.init()
-    conn = getConnection()
+    connection = app.get(Connection)
   })
   describe('/heroes (GET)', () => {
     beforeEach(async () => {
-      const heroRepo = await conn.getRepository(Hero)
+      const heroRepo = await connection.getRepository(Hero)
       const saveHero = []
-      for (let i = 1; i <= 5000; i++) {
+      for (let i = 1; i <= 100; i++) {
         saveHero.push({
-          name: `Super Man ${i}`,
+          name: `Test Man ${i}`,
           power: i,
         })
       }
       await heroRepo.save(saveHero)
     })
-    it('it should return 1 item', () => {
-      return request(app.getHttpServer())
-        .get('/heroes')
-        .expect(200)
-        .then(({ body }) => {
-          expect(body).toHaveLength(5000)
-        })
+    it('it should return 1 item', async () => {
+      const response = await request(app.getHttpServer()).get('/heroes').expect(200)
+      expect(response.body).toHaveLength(103)
+      expect(response.body[0]).toStrictEqual({
+        id: 1,
+        name: 'Iron Man',
+        power: 98,
+        universe: null,
+      })
     })
   })
 
   afterEach(async () => {
-    await conn.close()
+    await connection.close()
     await app.close()
   })
 })

@@ -1,9 +1,9 @@
 export const TypeOrmConfig: any = {
   type: 'mysql',
-  entities: ['@/../**/*.entity{.ts,.js}'],
-  migrationsRun: true,
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  migrationsRun: process.env.RUN_MIGRATION || false,
   migrationsTableName: 'migrations',
-  migrations: ['@/../**/*.migration{.ts,.js}'],
+  migrations: [__dirname + '/../**/*.migration{.ts,.js}'],
   cli: { migrationsDir: 'migration' },
   keepConnectionAlive: true,
   logging: 'true',
@@ -12,9 +12,9 @@ export const TypeOrmConfig: any = {
   extra: {
     connectionLimit: 10,
   },
-  host: 'localhost',
-  port: 33062,
-  username: 'root',
-  password: 'root',
-  database: 'dev',
+  host: process.env.DB_HOST || 'localhost',
+  port: process.env.DB_PORT || 3306,
+  username: process.env.DB_USERNAME || 'root',
+  password: process.env.DB_PASSWORD || 'root',
+  database: process.env.DB_DATABASE || 'dev',
 }

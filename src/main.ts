@@ -1,13 +1,11 @@
+import * as env from 'dotenv'
+env.config({ path: '.env' })
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 
-if (process.env.NODE_ENV === 'production') {
-  async function bootstrap() {
-    const app = await NestFactory.create(AppModule)
-    await app.listen(3000)
-  }
-
-  bootstrap()
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule)
+  await app.listen(3333)
 }
 
-export const viteNodeApp = NestFactory.create(AppModule)
+bootstrap()
