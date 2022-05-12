@@ -50,3 +50,4 @@ jobs:
           DB_PORT: 3306
           DB_PASSWORD: root
           DB_DATABASE: test
+          RUN_MIGRATION: true

@@ -6,6 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm migration:generate -f src/database/migrationConfig.json -n $1",
+    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm migration:run -f src/database/migrationConfig.json",
     "prebuild": "rimraf dist",
     "clean": "rimraf dist",
     "dev": "yarn clean && nest start --path tsconfig.json --watch",
